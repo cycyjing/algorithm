@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Priority Queue</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function PriorityQueue() {
+    this.items = []
+
+    function PriorityElement(element, priority) {
+      this.element = element
+      this.priority = priority
+    }
+
+    PriorityQueue.prototype.in = function (element, priority) {
+      let pe = new PriorityElement(element, priority)
+      let isAdd = false
+      if (this.items.length == 0) {
+        this.items.push(pe)
+      } else {
+        for (let i = 0; i < this.items.length; i++) {
+          if (pe.priority < this.items[i].priority) {
+            this.items.splice(i, 0, pe)
+            isAdd = true
+            break
+          }
+        }
+        if (!isAdd)
+          this.items.push(pe)
+      }
+    }
+    PriorityQueue.prototype.out = function () {
+      return this.items.shift()
+    }
+    PriorityQueue.prototype.front = function () {
+      return this.items[0]
+    }
+    PriorityQueue.prototype.isEmpty = function () {
+      return this.items.length == 0
+    }
+    PriorityQueue.prototype.size = function () {
+      return this.items.length
+    }
+    PriorityQueue.prototype.toString = function () {
+      let strs = ''
+      for (const str of this.items) {
+        strs += str.element + '-' + str.priority + ' '
+      }
+      return strs
+    }
+  }
+
+  const pq = new PriorityQueue()
+  pq.in('a', 1)
+  pq.in('b', 3)
+  pq.in('c', 1)
+  pq.in('d', 4)
+  console.log(pq)
+</script>
+
+</html>
