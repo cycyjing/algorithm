@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linked List</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function LinkedList() {
+    this.size = 0
+    this.head = null
+
+    function Node(value) {
+      this.value = value
+      this.next = null
+    }
+
+    /* add */
+    LinkedList.prototype.append = function (value) {
+      let node = new Node(value)
+      if (this.size == 0) {
+        this.head = node
+      } else {
+        let current = this.head
+        while (current.next) {
+          current = current.next
+        }
+        current.next = new Node(value)
+      }
+      this.size += 1
+    }
+    LinkedList.prototype.insert = function (position, element) {
+      // normally to throw error, here use boolean to test
+      if (position < 0 || position > this.size) return false
+
+      let node = new Node(element)
+      if (position == 0) {
+        node.next = this.head
+        this.head = node
+      } else {
+        /* solution1 */
+        // let i = 0
+        // let current = this.head
+        // while (current) {
+        //   if (i == position - 1) {
+        //     let nnext = current.next
+        //     current.next = node
+        //     node.next = nnext
+        //     break
+        //   }
+        //   current = current.next
+        //   i += 1
+        // }
+
+        /* solution 2 */
+        let i = 0
+        let current = this.head
+        let previous = null
+        while (i++ < position) {
+          previous = current
+          current = current.next
+        }
+        node.next = current
+        previous.next = node
+      }
+      return true
+    }
+    /* delete */
+    LinkedList.prototype.remove = function (element) {
+      if (this.head.value == element) {
+        this.head = this.head.next
+        return true
+      }
+      let current = this.head
+      let previous = null
+      while (current) {
+        if (current.value == element) {
+          previous.next = current.next
+          return true
+        }
+        previous = current
+        current = current.next
+      }
+      return false
+    }
+    LinkedList.prototype.removeAt = function (position) {
+      if (position < 0 || position >= this.size) return false
+
+      let i = 0
+      let current = this.head
+      let previous = null
+      while (current) {
+        if (position == 0) {
+          this.head = current.next
+          return true
+        } else if (i == position && i > 0) {
+          previous.next = current.next
+          return true
+        }
+        previous = current
+        current = current.next
+      }
+      return false
+    }
+    /* update */
+    LinkedList.prototype.update = function (position, element) {
+      if (position < 0 || position >= this.size) return false
+
+      let i = 0
+      let current = this.head
+      while (current) {
+        if (i == position) {
+          current.value = element
+          return false
+        }
+        current = current.next
+        i += 1
+      }
+      return false
+    }
+    /* search */
+    LinkedList.prototype.get = function (position) {
+      if (position < 0 || position >= this.size) return null
+
+      let i = 0
+      let current = this.head
+      while (i++ < position) {
+        current = current.next
+      }
+      return current.value
+    }
+    LinkedList.prototype.indexOf = function (element) {
+      let i = 0
+      let current = this.head
+      while (current) {
+        if (current.value == element)
+          return i
+        current = current.next
+        i += 1
+      }
+      return -1
+    }
+    LinkedList.prototype.isEmpty = function () {
+      return this.size == 0
+    }
+    LinkedList.prototype.size = function () {
+      return this.size
+    }
+    LinkedList.prototype.toString = function () {
+      let strs = ''
+      let current = this.head
+      while (current) {
+        strs += current.value + ' next---> '
+        current = current.next
+      }
+      strs += 'null'
+      return strs
+    }
+  }
+  let ll = new LinkedList()
+  ll.append('a')
+  ll.append('d')
+  ll.append('c')
+  console.log(ll.toString())
+  ll.insert(1, 'b')
+  console.log(ll.toString())
+  console.log(ll.get(2))
+
+</script>
+
+</html>
