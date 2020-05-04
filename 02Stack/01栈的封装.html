@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function Stack() {
+    // 栈的属性
+    this.items = []
+    // 1.压栈
+    Stack.prototype.in = function (element) {
+      return this.items.push(element)
+    }
+    // 2.取元素
+    Stack.prototype.out = function () {
+      return this.items.pop()
+    }
+    // 3.查看栈顶元素
+    Stack.prototype.top = function () {
+      return this.items[this.items.length - 1]
+    }
+    // 4.是否为空
+    Stack.prototype.isEmpty = function () {
+      return this.items.length === 0
+    }
+    // 5.栈中元素个数
+    Stack.prototype.size = function () {
+      return this.items.length
+    }
+    // 6.toString
+    Stack.prototype.toString = function () {
+      let strs = ''
+      for (let str of this.items) {
+        strs += str + ' '
+      }
+      return strs
+    }
+  }
+
+
+  var s = new Stack()
+  console.log('object', typeof s)
+
+  s.in(100)
+  s.in(10)
+  s.in(30)
+  s.in(12)
+  console.log('Stack is ' + s)
+
+  s.out()
+  console.log('After out(), Stack is ' + s)
+  console.log('Top element is ' + s.top())
+  console.log('isEmpty Stack? ' + s.isEmpty())
+  console.log('The size is ' + s.size())
+  console.log('toString: ' + s.toString())
+
+  // 十进制转成二进制
+  function dec2bin(num) {
+    let stack = new Stack()
+    while (num > 0) {
+      stack.in(num % 2)
+      num = Math.floor(num / 2)
+    }
+    let binNum = ''
+    while (!stack.isEmpty()) {
+      binNum += stack.out()
+    }
+    return binNum
+  }
+  alert(dec2bin(50))
+</script>
+
+</html>
