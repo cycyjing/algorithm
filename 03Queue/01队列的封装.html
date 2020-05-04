@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function Queue() {
+    this.items = []
+    Queue.prototype.enqueue = function (element) {
+      this.items.push(element)
+    }
+    Queue.prototype.dequeue = function () {
+      return this.items.shift()
+    }
+    Queue.prototype.front = function () {
+      return this.items[0]
+    }
+    Queue.prototype.isEmpty = function () {
+      return this.items.length == 0
+    }
+    Queue.prototype.size = function () {
+      return this.items.length
+    }
+    Queue.prototype.toString = function () {
+      let strs = ''
+      for (const str of this.items) {
+        strs += str + ' '
+      }
+      return strs
+    }
+  }
+  const q = new Queue()
+  // q.enqueue(5)
+  // q.enqueue(55)
+  // q.enqueue(6)
+  // q.enqueue(100)
+  // alert('Queue is ' + q)
+
+  // q.dequeue()
+  // q.dequeue()
+  // alert('After dequeue(), Queue is ' + q)
+  // alert('Queue isEmpty? ' + q.isEmpty())
+  // alert('Queue size is ' + q.size())
+  // alert('toString: ' + q.toString())
+
+  /* 击鼓传花 */
+  function game(people, count) {
+    let newQueue = new Queue()
+    for (const p of people) {
+      newQueue.enqueue(p)
+    }
+    let i = 1
+    while (newQueue.size() > 1) {
+      if (i == count) {
+        newQueue.dequeue()
+        i = 0 //next person is 1
+      } else {
+        newQueue.enqueue(newQueue.dequeue())
+      }
+      i++
+    }
+    return newQueue.front()
+  }
+  console.log(game(['a', 'b', 'c', 'd', 'e'], 5))
+</script>
+
+</html>
