@@ -72,10 +72,7 @@
     }
     /* delete */
     LinkedList.prototype.remove = function (element) {
-      /* solution1 */
-      // return this.removeAt(this.indexOf(element))
-
-      /* solution 2  */
+      /* solution 1  */
       if (this.head.value == element) {
         this.head = this.head.next
         return true
@@ -92,6 +89,9 @@
         current = current.next
       }
       return false
+
+      /* solution 2 */
+      // return this.removeAt(this.indexOf(element))
     }
     LinkedList.prototype.removeAt = function (position) {
       if (position < 0 || position >= this.size) return null
