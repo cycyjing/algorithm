@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linked List</title>
+  <title>Linked List/单</title>
 </head>
 
 <body>
@@ -72,6 +72,10 @@
     }
     /* delete */
     LinkedList.prototype.remove = function (element) {
+      /* solution1 */
+      // return this.removeAt(this.indexOf(element))
+
+      /* solution 2  */
       if (this.head.value == element) {
         this.head = this.head.next
         return true
@@ -81,6 +85,7 @@
       while (current) {
         if (current.value == element) {
           previous.next = current.next
+          this.size -= 1
           return true
         }
         previous = current
@@ -89,23 +94,34 @@
       return false
     }
     LinkedList.prototype.removeAt = function (position) {
-      if (position < 0 || position >= this.size) return false
+      if (position < 0 || position >= this.size) return null
 
-      let i = 0
+      let i = 0 
       let current = this.head
       let previous = null
-      while (current) {
-        if (position == 0) {
-          this.head = current.next
-          return true
-        } else if (i == position && i > 0) {
-          previous.next = current.next
-          return true
+      // while (current) {
+      //   if (position == 0) {
+      //     this.head = current.next
+      //     return true
+      //   } else if (i == position && i > 0) {
+      //     previous.next = current.next
+      //     return true
+      //   }
+      //   previous = current
+      //   current = current.next
+      // }
+      // return false
+      if (position == 0) {
+        this.head = current.next
+      } else {
+        while (i++ < position) {
+          previous = current
+          current = current.next
         }
-        previous = current
-        current = current.next
+        previous.next = current.next
       }
-      return false
+      this.size -= 1
+      return current.value
     }
     /* update */
     LinkedList.prototype.update = function (position, element) {
@@ -113,15 +129,20 @@
 
       let i = 0
       let current = this.head
-      while (current) {
-        if (i == position) {
-          current.value = element
-          return false
-        }
+      // while (current) {
+      //   if (i == position) {
+      //     current.value = element
+      //     return true
+      //   }
+      //   current = current.next
+      //   i += 1
+      // }
+      // return false
+      while (index++ < position) {
         current = current.next
-        i += 1
       }
-      return false
+      current.value = element
+      return true
     }
     /* search */
     LinkedList.prototype.get = function (position) {
@@ -169,8 +190,13 @@
   console.log(ll.toString())
   ll.insert(1, 'b')
   console.log(ll.toString())
-  console.log(ll.get(2))
+  console.log(ll.get(2) + '------get')
+  console.log(ll.indexOf('b') + '------indexOf')
+  ll.update(0, 'aaa')
+  ll.update(2, 'ddd')
+  console.log(ll.toString())
 
+  console.log(ll.toString())
 </script>
 
 </html>
