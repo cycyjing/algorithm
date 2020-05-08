@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doubly Linked List</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function DoublyLinkedList() {
+    this.size = 0
+    this.head = null
+    this.tail = null
+
+    function Node(value) {
+      this.value = value
+      this.pre = null
+      this.next = null
+    }
+    /* add */
+    DoublyLinkedList.prototype.append = function (element) {
+      let node = new Node(element)
+      if (this.size == 0) {
+        this.head = node
+        this.tail = node
+      } else {
+        let current = this.head
+        while (current.next) {
+          current = current.next
+        }
+        current.next = node
+        node.pre = current
+        this.tail = node
+      }
+      this.size += 1
+    }
+    DoublyLinkedList.prototype.insert = function (position, element) {
+      if (position < 0 || position > this.size) return false
+
+      let node = Node(element)
+      if (position == 0) {
+        this.head.pre = node
+        node.next = this.head
+      } else if (position == this.size) {
+        this.tail.next = node
+        this.tail = node
+      } else {
+        let current = this.head
+        let previous = null
+        let i = 0
+        while (i++ < position) {
+          previous = current
+          current = current.next
+        }
+        previous.next = node
+        current.pre = node
+        node.pre = previous
+        node.next = current
+      }
+      if (position == this.size)
+        this.tail = node
+      this.size += 1
+    }
+    /* delete */
+    DoublyLinkedList.prototype.remove = function (element) {
+      if (this.head.value == element) {
+        this.head = this.head.next
+        this.head.pre = null
+        this.size -= 1
+        return true
+      }
+      let current = this.head
+      let previous = null
+      while (current) {
+        if (current.value == element) {
+          previous.next = current.next
+          current.next.pre = previous
+          this.size -= 1
+          return true
+        }
+        previous = current
+        current = current.next
+      }
+      return false
+    }
+    DoublyLinkedList.prototype.removeAt = function (position) {
+      if (position < 0 || position >= this.size) return false
+
+      const middle = (this.size - 1) / 2
+      let current = null
+      let previous = null
+      let i = 0
+      if (position == 0) {
+        this.head = this.head.next
+        this.head.pre = null
+      } else if (position == this.size - 1) {
+        this.tail = this.tail.pre
+        this.tail.next = null
+      } else if (position <= middle) {
+        current = this.head
+        while (i++ < position) {
+          previous = current
+          current = current.next
+        }
+        previous.next = current.next
+        current.next.pre = previous
+      } else {
+        current = this.tail
+        i = this.size - 1
+        while (i-- > position) {
+          previous = current
+          current = current.pre
+        }
+        previous.pre = current.pre
+        current.pre.next = previous
+      }
+      this.size -= 1
+      return true
+    }
+    /* update */
+    DoublyLinkedList.prototype.update = function (position, element) {
+      if (position < 0 || position >= this.size) return false
+
+      const middle = (this.size - 1) / 2
+      let current = null
+      let i = 0
+      if (position <= middle) {
+        current = this.head
+        while (i++ < position) {
+          current = current.next
+        }
+        current.value = element
+      } else {
+        current = this.tail
+        i = this.size - 1
+        while (i-- > position) {
+          current = current.pre
+        }
+        current.value = element
+      }
+      return true
+    }
+    /* search */
+    DoublyLinkedList.prototype.get = function (position) {
+      if (position < 0 || position >= this.size) return null
+
+      const middle = (this.size - 1) / 2
+      let current = null
+      let i = 0
+      if (position <= middle) {
+        current = this.head
+        while (i++ < position) {
+          current = current.next
+        }
+      } else {
+        current = this.tail
+        i = this.size - 1
+        while (i-- > position) {
+          current = current.pre
+        }
+      }
+      return current.value
+    }
+    DoublyLinkedList.prototype.indexOf = function (element) {
+      let current = this.head
+      let i = 0
+      while (current) {
+        if (current.value == element)
+          return i
+        current = current.next
+        i += 1
+      }
+      return -1
+    }
+    DoublyLinkedList.prototype.forwardString = function () {
+      let strs = ''
+      let current = this.head
+      while (current) {
+        strs += current.value + ' next--->'
+        current = current.next
+      }
+      strs += 'null'
+      return strs
+    }
+    DoublyLinkedList.prototype.isEmpty = function () {
+      return this.size == 0
+    }
+    DoublyLinkedList.prototype.size = function () {
+      return this.size
+    }
+    DoublyLinkedList.prototype.backwardString = function () {
+      let strs = ''
+      let current = this.tail
+      while (current) {
+        strs += current.value + ' pre--->'
+        current = current.pre
+      }
+      strs += 'null'
+      return strs
+    }
+  }
+  let dll = new DoublyLinkedList()
+  dll.append('a')
+  dll.append('b')
+  dll.append('c')
+  dll.append('d')
+  // dll.insert(1, 'aa')
+  console.log(dll.size + '-----size')
+  console.log(dll.forwardString())
+  console.log(dll.backwardString())
+  console.log(dll.get(3))
+  console.log(dll.indexOf('a'))
+  dll.update(1, 'bbbb')
+  dll.update(3, 'dddd')
+  console.log(dll.forwardString())
+  console.log(dll.backwardString())
+  dll.remove('bbbb')
+  console.log(dll.size + '-----size')
+  console.log(dll.forwardString())
+  console.log(dll.backwardString())
+  dll.removeAt(2)
+  console.log(dll.size + '-----size')
+  console.log(dll.forwardString())
+</script>
+
+</html>
