@@ -96,21 +96,9 @@
     LinkedList.prototype.removeAt = function (position) {
       if (position < 0 || position >= this.size) return null
 
-      let i = 0 
+      let i = 0
       let current = this.head
       let previous = null
-      // while (current) {
-      //   if (position == 0) {
-      //     this.head = current.next
-      //     return true
-      //   } else if (i == position && i > 0) {
-      //     previous.next = current.next
-      //     return true
-      //   }
-      //   previous = current
-      //   current = current.next
-      // }
-      // return false
       if (position == 0) {
         this.head = current.next
       } else {
@@ -138,7 +126,7 @@
       //   i += 1
       // }
       // return false
-      while (index++ < position) {
+      while (i++ < position) {
         current = current.next
       }
       current.value = element
@@ -195,7 +183,9 @@
   ll.update(0, 'aaa')
   ll.update(2, 'ddd')
   console.log(ll.toString())
-
+  ll.remove('aaa')
+  console.log(ll.toString())
+  ll.removeAt(2)
   console.log(ll.toString())
 </script>
 
