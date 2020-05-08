@@ -68,6 +68,7 @@
         node.next = current
         previous.next = node
       }
+      this.size += 1
       return true
     }
     /* delete */
@@ -75,6 +76,7 @@
       /* solution 1  */
       if (this.head.value == element) {
         this.head = this.head.next
+        this.size -= 1
         return true
       }
       let current = this.head
