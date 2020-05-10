@@ -18,7 +18,7 @@
 
     function Node(value) {
       this.value = value
-      this.pre = null
+      this.prev = null
       this.next = null
     }
     /* add */
@@ -28,12 +28,18 @@
         this.head = node
         this.tail = node
       } else {
-        let current = this.head
-        while (current.next) {
-          current = current.next
-        }
-        current.next = node
-        node.pre = current
+        /* solution 1 */
+        // let current = this.head
+        // while (current.next) {
+        //   current = current.next
+        // }
+        // current.next = node
+        // node.prev = current
+        // this.tail = node
+
+        /* solution 2 */
+        node.prev = this.tail
+        this.tail.next = node
         this.tail = node
       }
       this.size += 1
@@ -41,35 +47,63 @@
     DoublyLinkedList.prototype.insert = function (position, element) {
       if (position < 0 || position > this.size) return false
 
-      let node = Node(element)
-      if (position == 0) {
-        this.head.pre = node
-        node.next = this.head
-      } else if (position == this.size) {
-        this.tail.next = node
+      let node = new Node(element)
+      if (this.size == 0) {
+        this.head = node
         this.tail = node
       } else {
-        let current = this.head
-        let previous = null
-        let i = 0
-        while (i++ < position) {
-          previous = current
-          current = current.next
+        if (position == 0) {
+          node.next = this.head
+          this.head.prev = node
+          this.head = node
+        } else if (position == this.size) {
+          node.prev = this.tail
+          this.tail.next = node
+          this.tail = node
+        } else {
+          const middle = this.size / 2
+          let current = this.head
+          let previous = null
+          let i = 0
+          // while (i++ < position) {
+          //   current = current.next
+          // }
+          // node.prev = current.prev
+          // node.next = current
+          // current.prev.next = node
+          // current.prev = node
+
+          if (position < middle) {
+            while (i++ < position) {
+              previous = current
+              current = current.next
+            }
+            previous.next = node
+            current.prev = node
+            node.prev = previous
+            node.next = current
+          } else {
+            current = this.tail
+            i = this.size - 1
+            while (i-- >= position) {
+              previous = current
+              current = current.prev
+            }
+            previous.prev = node
+            current.next = node
+            node.prev = current
+            node.next = previous
+          }
         }
-        previous.next = node
-        current.pre = node
-        node.pre = previous
-        node.next = current
       }
-      if (position == this.size)
-        this.tail = node
       this.size += 1
+      return true
     }
     /* delete */
     DoublyLinkedList.prototype.remove = function (element) {
       if (this.head.value == element) {
         this.head = this.head.next
-        this.head.pre = null
+        this.head.prev = null
         this.size -= 1
         return true
       }
@@ -78,7 +112,7 @@
       while (current) {
         if (current.value == element) {
           previous.next = current.next
-          current.next.pre = previous
+          current.next.prev = previous
           this.size -= 1
           return true
         }
@@ -90,33 +124,33 @@
     DoublyLinkedList.prototype.removeAt = function (position) {
       if (position < 0 || position >= this.size) return false
 
-      const middle = (this.size - 1) / 2
+      const middle = this.size / 2
       let current = null
       let previous = null
       let i = 0
       if (position == 0) {
         this.head = this.head.next
-        this.head.pre = null
+        this.head.prev = null
       } else if (position == this.size - 1) {
-        this.tail = this.tail.pre
+        this.tail = this.tail.prev
         this.tail.next = null
-      } else if (position <= middle) {
+      } else if (position < middle) {
         current = this.head
         while (i++ < position) {
           previous = current
           current = current.next
         }
         previous.next = current.next
-        current.next.pre = previous
+        current.next.prev = previous
       } else {
         current = this.tail
         i = this.size - 1
         while (i-- > position) {
           previous = current
-          current = current.pre
+          current = current.prev
         }
-        previous.pre = current.pre
-        current.pre.next = previous
+        previous.prev = current.prev
+        current.prev.next = previous
       }
       this.size -= 1
       return true
@@ -125,10 +159,10 @@
     DoublyLinkedList.prototype.update = function (position, element) {
       if (position < 0 || position >= this.size) return false
 
-      const middle = (this.size - 1) / 2
+      const middle = this.size / 2
       let current = null
       let i = 0
-      if (position <= middle) {
+      if (position < middle) {
         current = this.head
         while (i++ < position) {
           current = current.next
@@ -138,7 +172,7 @@
         current = this.tail
         i = this.size - 1
         while (i-- > position) {
-          current = current.pre
+          current = current.prev
         }
         current.value = element
       }
@@ -148,10 +182,10 @@
     DoublyLinkedList.prototype.get = function (position) {
       if (position < 0 || position >= this.size) return null
 
-      const middle = (this.size - 1) / 2
+      const middle = this.size / 2
       let current = null
       let i = 0
-      if (position <= middle) {
+      if (position < middle) {
         current = this.head
         while (i++ < position) {
           current = current.next
@@ -160,7 +194,7 @@
         current = this.tail
         i = this.size - 1
         while (i-- > position) {
-          current = current.pre
+          current = current.prev
         }
       }
       return current.value
@@ -168,23 +202,23 @@
     DoublyLinkedList.prototype.indexOf = function (element) {
       let current = this.head
       let i = 0
-      while (current) {
-        if (current.value == element)
-          return i
+      // while (current) {
+      //   if (current.value == element)
+      //     return i
+      //   current = current.next
+      //   i += 1
+      // }
+      let previous = this.tail
+      while (i++ <= this.size / 2) {
+        if (current.value == element) {
+          return i - 1
+        } else if (previous.value == element) {
+          return this.size - i
+        }
         current = current.next
-        i += 1
+        previous = previous.prev
       }
       return -1
-    }
-    DoublyLinkedList.prototype.forwardString = function () {
-      let strs = ''
-      let current = this.head
-      while (current) {
-        strs += current.value + ' next--->'
-        current = current.next
-      }
-      strs += 'null'
-      return strs
     }
     DoublyLinkedList.prototype.isEmpty = function () {
       return this.size == 0
@@ -192,12 +226,22 @@
     DoublyLinkedList.prototype.size = function () {
       return this.size
     }
-    DoublyLinkedList.prototype.backwardString = function () {
+    DoublyLinkedList.prototype.forwardString = function () {
       let strs = ''
       let current = this.tail
       while (current) {
-        strs += current.value + ' pre--->'
-        current = current.pre
+        strs += current.value + ' prev--->'
+        current = current.prev
+      }
+      strs += 'null'
+      return strs
+    }
+    DoublyLinkedList.prototype.backwardString = function () {
+      let strs = ''
+      let current = this.head
+      while (current) {
+        strs += current.value + ' next--->'
+        current = current.next
       }
       strs += 'null'
       return strs
@@ -208,23 +252,25 @@
   dll.append('b')
   dll.append('c')
   dll.append('d')
-  // dll.insert(1, 'aa')
+  dll.insert(0, 'aa')
+  dll.insert(5, 'bb')
+  dll.insert(5, 'cc')
   console.log(dll.size + '-----size')
-  console.log(dll.forwardString())
   console.log(dll.backwardString())
-  console.log(dll.get(3))
-  console.log(dll.indexOf('a'))
-  dll.update(1, 'bbbb')
-  dll.update(3, 'dddd')
   console.log(dll.forwardString())
-  console.log(dll.backwardString())
-  dll.remove('bbbb')
-  console.log(dll.size + '-----size')
-  console.log(dll.forwardString())
-  console.log(dll.backwardString())
-  dll.removeAt(2)
-  console.log(dll.size + '-----size')
-  console.log(dll.forwardString())
+  // console.log(dll.get(3))
+  // console.log(dll.indexOf('a'))
+  // dll.update(1, 'bbbb')
+  // dll.update(3, 'dddd')
+  // console.log(dll.backwardString())
+  // console.log(dll.forwardString())
+  // dll.remove('bbbb')
+  // console.log(dll.size + '-----size')
+  // console.log(dll.backwardString())
+  // console.log(dll.forwardString())
+  // dll.removeAt(2)
+  // console.log(dll.size + '-----size')
+  // console.log(dll.backwardString())
 </script>
 
 </html>
