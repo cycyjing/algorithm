@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Set</title>
+  </head>
+  <body></body>
+  <script>
+    function Set() {
+      this.items = {};
+    }
+    /* add */
+    Set.prototype.add = function (value) {
+      if (this.has(value)) return false;
+
+      this.items[value] = value;
+      return true;
+    };
+    /* delete */
+    Set.prototype.remove = function (value) {
+      if (!this.has(value)) return false;
+
+      delete this.items[value];
+      return true;
+    };
+    Set.prototype.clear = function () {
+      this.items = {};
+    };
+    /* update */
+    /* search */
+    Set.prototype.has = function (value) {
+      return this.items.hasOwnProperty(value);
+    };
+    Set.prototype.size = function () {
+      return Object.keys(this.items).length;
+    };
+    Set.prototype.values = function () {
+      return Object.keys(this.items);
+    };
+
+
+    const set = new Set();
+    console.log(set.add('a'));
+    console.log(set.add('a'));
+    console.log(set.add('b'));
+    console.log(set.add('b'));
+    console.log(set.add('c'));
+    console.log(set.size());
+    console.log(set.values());
+    
+    console.log(set.remove('d'));
+    console.log(set.remove('a'));
+    console.log(set.remove('a'));
+    console.log(set.size());
+    console.log(set.values());
+    set.clear();
+    console.log(set.values());
+    console.log(set.size());
+  </script>
+</html>
