@@ -39,6 +39,18 @@
       return Object.keys(this.items);
     };
 
+    Set.prototype.union = function (anotherSet) {
+      const unionSet = new Set();
+      for (const key of this.values()) {
+        unionSet.add(key);
+      }
+      for (const key of anotherSet.values()) {
+        // if (!unionSet.has(key)) { // add method has done that
+        unionSet.add(key);
+        // }
+      }
+      return unionSet;
+    };
 
     const set = new Set();
     console.log(set.add('a'));
@@ -46,16 +58,20 @@
     console.log(set.add('b'));
     console.log(set.add('b'));
     console.log(set.add('c'));
-    console.log(set.size());
-    console.log(set.values());
-    
-    console.log(set.remove('d'));
-    console.log(set.remove('a'));
-    console.log(set.remove('a'));
-    console.log(set.size());
-    console.log(set.values());
-    set.clear();
-    console.log(set.values());
-    console.log(set.size());
+    // console.log(set.size());
+    // console.log(set.values());
+
+    // console.log(set.remove('d'));
+    // console.log(set.remove('a'));
+    // console.log(set.remove('a'));
+    // console.log(set.size());
+    // console.log(set.values());
+    // set.clear();
+    // console.log(set.values());
+    // console.log(set.size());
+    const setB = new Set();
+    console.log(setB.add('aa'));
+    console.log(setB.add('bb'));
+    console.log(set.union(setB).values());
   </script>
 </html>
