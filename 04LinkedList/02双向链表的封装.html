@@ -98,6 +98,7 @@
       };
       /* delete */
       DoublyLinkedList.prototype.remove = function (element) {
+        // return this.removeAt(this.indexOf(element))
         if (this.head.value == element) {
           this.head = this.head.next;
           this.head.prev = null;
