@@ -283,6 +283,12 @@
       DoublyLinkedList.prototype.size = function () {
         return this.size;
       };
+      DoublyLinkedList.prototype.getHead = function () {
+        return this.head.value;
+      };
+      DoublyLinkedList.prototype.getTail = function () {
+        return this.tail.value;
+      };
       DoublyLinkedList.prototype.forwardString = function () {
         let strs = '';
         let current = this.tail;
@@ -336,5 +342,8 @@
     console.log(dll.removeAt(4));
     console.log(dll.size + '-----size');
     console.log(dll.backwardString());
+    console.log(dll.isEmpty());
+    console.log(dll.getHead());
+    console.log(dll.getTail());
   </script>
 </html>
