@@ -99,25 +99,40 @@
       /* delete */
       DoublyLinkedList.prototype.remove = function (element) {
         // return this.removeAt(this.indexOf(element))
+        let current = this.head;
         if (this.head.value == element) {
           this.head = this.head.next;
           this.head.prev = null;
           this.size -= 1;
-          return true;
+          return current.value;
+        } else if (this.tail.value == element) {
+          current = this.tail;
+          this.tail = this.tail.prev;
+          this.tail.next = null;
+          this.size -= 1;
+          return current.value;
         }
-        let current = this.head;
-        let previous = null;
+        // let previous = null;
+        // while (current) {
+        //   if (current.value == element) {
+        //     previous.next = current.next;
+        //     current.next.prev = previous;
+        //     this.size -= 1;
+        //     return current.value;
+        //   }
+        //   previous = current;
+        //   current = current.next;
+        // }
         while (current) {
           if (current.value == element) {
-            previous.next = current.next;
-            current.next.prev = previous;
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
             this.size -= 1;
-            return true;
+            return current.value;
           }
-          previous = current;
           current = current.next;
         }
-        return false;
+        return null;
       };
       DoublyLinkedList.prototype.removeAt = function (position) {
         /* solution 1 */
@@ -312,14 +327,14 @@
     // console.log(dll.size + '-----size')
     // console.log(dll.backwardString())
     // console.log(dll.forwardString())
-    console.log(dll.removeAt(0))
-    console.log(dll.size + '-----size')
-    console.log(dll.backwardString())
-    console.log(dll.removeAt(2))
-    console.log(dll.size + '-----size')
-    console.log(dll.backwardString())
-    console.log(dll.removeAt(4))
-    console.log(dll.size + '-----size')
-    console.log(dll.backwardString())
+    console.log(dll.removeAt(0));
+    console.log(dll.size + '-----size');
+    console.log(dll.backwardString());
+    console.log(dll.removeAt(2));
+    console.log(dll.size + '-----size');
+    console.log(dll.backwardString());
+    console.log(dll.removeAt(4));
+    console.log(dll.size + '-----size');
+    console.log(dll.backwardString());
   </script>
 </html>
