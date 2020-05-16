@@ -9,48 +9,75 @@
   <script>
     function Set() {
       this.items = {};
+
+      /* add */
+      Set.prototype.add = function (value) {
+        if (this.has(value)) return false;
+
+        this.items[value] = value;
+        return true;
+      };
+      /* delete */
+      Set.prototype.remove = function (value) {
+        if (!this.has(value)) return false;
+
+        delete this.items[value];
+        return true;
+      };
+      Set.prototype.clear = function () {
+        this.items = {};
+      };
+      /* update */
+      /* search */
+      Set.prototype.has = function (value) {
+        return this.items.hasOwnProperty(value);
+      };
+      Set.prototype.size = function () {
+        return Object.keys(this.items).length;
+      };
+      Set.prototype.values = function () {
+        return Object.keys(this.items);
+      };
+      /* operations */
+      Set.prototype.union = function (anotherSet) {
+        const unionSet = new Set();
+        for (const key of this.values()) {
+          unionSet.add(key);
+        }
+        for (const key of anotherSet.values()) {
+          // if (!unionSet.has(key)) { // add method has done that
+          unionSet.add(key);
+          // }
+        }
+        return unionSet;
+      };
+      Set.prototype.intersection = function (anotherSet) {
+        const intersectionSet = new Set();
+        for (const item of this.values()) {
+          if (anotherSet.has(item)) {
+            intersectionSet.add(item);
+          }
+        }
+        return intersectionSet;
+      };
+      Set.prototype.difference = function (anotherSet) {
+        const differenceSet = new Set();
+        for (const item of this.values()) {
+          if (!anotherSet.has(item)) {
+            differenceSet.add(item);
+          }
+        }
+        return differenceSet;
+      };
+      Set.prototype.subset = function (anotherSet) {
+        for (const item of this.values()) {
+          if (!anotherSet.has(item)) {
+            return false;
+          }
+        }
+        return true;
+      };
     }
-    /* add */
-    Set.prototype.add = function (value) {
-      if (this.has(value)) return false;
-
-      this.items[value] = value;
-      return true;
-    };
-    /* delete */
-    Set.prototype.remove = function (value) {
-      if (!this.has(value)) return false;
-
-      delete this.items[value];
-      return true;
-    };
-    Set.prototype.clear = function () {
-      this.items = {};
-    };
-    /* update */
-    /* search */
-    Set.prototype.has = function (value) {
-      return this.items.hasOwnProperty(value);
-    };
-    Set.prototype.size = function () {
-      return Object.keys(this.items).length;
-    };
-    Set.prototype.values = function () {
-      return Object.keys(this.items);
-    };
-
-    Set.prototype.union = function (anotherSet) {
-      const unionSet = new Set();
-      for (const key of this.values()) {
-        unionSet.add(key);
-      }
-      for (const key of anotherSet.values()) {
-        // if (!unionSet.has(key)) { // add method has done that
-        unionSet.add(key);
-        // }
-      }
-      return unionSet;
-    };
 
     const set = new Set();
     console.log(set.add('a'));
@@ -72,6 +99,17 @@
     const setB = new Set();
     console.log(setB.add('aa'));
     console.log(setB.add('bb'));
+    console.log(setB.add('b'));
+    console.log(setB.add('c'));
     console.log(set.union(setB).values());
+    console.log(set.intersection(setB).values());
+    console.log(set.difference(setB).values());
+    console.log(setB.difference(set).values());
+    const setC = new Set();
+    setC.add('a');
+    setC.add('b');
+    console.log(set.subset(setB));
+    console.log(set.subset(setC));
+    console.log(setC.subset(set));
   </script>
 </html>
