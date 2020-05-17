@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hash Function</title>
+  </head>
+  <body></body>
+  <script>
+    function hashFunction(str, size) {
+      let hashCode = 0;
+      for (let i = 0; i < str.length; i++) {
+        hashCode = 37 * hashCode + str.charCodeAt(i);
+      }
+      return hashCode % size;
+    }
+
+    console.log(hashFunction('aaaa', 7));
+    console.log(hashFunction('aaa', 7));
+    console.log(hashFunction('aa', 7));
+    console.log(hashFunction('a', 7));
+    console.log('-----------------');
+    console.log(hashFunction('d', 7));
+    console.log(hashFunction('c', 7));
+    console.log(hashFunction('e', 7));
+    console.log(hashFunction('a', 7));
+  </script>
+</html>
