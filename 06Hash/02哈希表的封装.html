@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hash Table</title>
+  </head>
+  <body></body>
+  <script>
+    // 链地址法
+    function HashTable() {
+      this.storage = [];
+      this.count = 0;
+      this.limit = 7;
+
+      HashTable.prototype.hashFunction = function (str, size) {
+        let hashCode = 0;
+        for (let i = 0; i < str.length; i++) {
+          hashCode = 37 * hashCode + str.charCodeAt(i);
+        }
+        return hashCode % size;
+      };
+      /* add & update */
+      HashTable.prototype.put = function (key, value) {
+        // 1.根据key获取到对应的index
+        const index = this.hashFunction(key, this.limit);
+        // 2.根据index获取bucket
+        let bucket = this.storage[index];
+        // 3.判断bucket是否存在
+        if (bucket == null || bucket == undefined) {
+          bucket = [];
+          this.storage[index] = bucket;
+        }
+        console.log(bucket);
+        // 4.判断是否修改数据
+        for (const tuple of bucket) {
+          if (tuple[0] == key) {
+            tuple[1] = value;
+            return;
+          }
+        }
+        // 5.添加
+        bucket.push([key, value]);
+        this.count += 1;
+      };
+      /* delete */
+      /* search */
+    }
+
+    const hash = new HashTable();
+    hash.put('age', 18);
+    hash.put('age', 20);
+    hash.put('name', 'aaa');
+    hash.put('dob', 1990);
+    console.log(hash)
+  </script>
+</html>
