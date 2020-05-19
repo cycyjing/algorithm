@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prime Number</title>
+  </head>
+  <body></body>
+  <script>
+    function isPrimeNumber(num) {
+      if (num <= 0) return false;
+      for (let i = 2; i < num; i++) {
+        if (num % i == 0) return false;
+      }
+      return true;
+    }
+    console.log(isPrimeNumber(50));
+    console.log(isPrimeNumber(5));
+    console.log(isPrimeNumber(13));
+    console.log(isPrimeNumber(123));
+
+    /*效率更高*/
+    function isPrime(num) {
+      if (num <= 0) return false;
+      for (let i = 2; i <= parseInt(Math.sqrt(num)); i++) {
+        if (num % i == 0) return false;
+      }
+      return true;
+    }
+    console.log(isPrimeNumber(50) + '--------------');
+    console.log(isPrimeNumber(5));
+    console.log(isPrimeNumber(13));
+    console.log(isPrimeNumber(123));
+  </script>
+</html>
