@@ -44,10 +44,26 @@
         this.count += 1;
       };
       /* delete */
+      HashTable.prototype.remove = function (key) {
+        const index = this.hashFunction(key, this.limit);
+        const bucket = this.storage[index];
+        if (bucket == null || bucket == undefined) {
+          return null;
+        }
+        for (let i = 0; i < bucket.length; i++) {
+          const tuple = bucket[i];
+          if (tuple[0] == key) {
+            bucket.splice(i, 1);
+            this.count -= 1;
+            return tuple[1];
+          }
+        }
+        return null;
+      };
       /* search */
       HashTable.prototype.get = function (key) {
         const index = this.hashFunction(key, this.limit);
-        let bucket = this.storage[index];
+        const bucket = this.storage[index];
         if (bucket == null || bucket == undefined) {
           return null;
         }
@@ -58,6 +74,7 @@
         }
         return null;
       };
+      
     }
 
     const hash = new HashTable();
@@ -68,5 +85,8 @@
     console.log(hash);
     console.log(hash.get('aaa'));
     console.log(hash.get('age'));
+    console.log(hash.remove('aaaa'));
+    console.log(hash.remove('dob'));
+    console.log(hash);
   </script>
 </html>
