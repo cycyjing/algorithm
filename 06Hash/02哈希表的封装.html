@@ -42,6 +42,10 @@
         // 5.添加
         bucket.push([key, value]);
         this.count += 1;
+        // 6.扩容
+        if (this.count > this.limit * 0.75) {
+          this.resize(this.limit * 2);
+        }
       };
       /* delete */
       HashTable.prototype.remove = function (key) {
@@ -57,7 +61,11 @@
             this.count -= 1;
             return tuple[1];
           }
+          if (this.count < this.limit * 0.25 && this.limit > 7) {
+            this.resize(Math.floor(this.limit / 2));
+          }
         }
+
         return null;
       };
       /* search */
@@ -74,11 +82,25 @@
         }
         return null;
       };
+      /* others */
       HashTable.prototype.isEmpty = function () {
         return this.count == 0;
       };
       HashTable.prototype.size = function () {
         return this.count;
+      };
+      /* 扩容/缩容 */
+      HashTable.prototype.resize = function (newLimit) {
+        const oldStorage = this.storage;
+        this.storage = [];
+        this.count = 0;
+        this.limit = newLimit;
+        for (const bucket of oldStorage) {
+          if (bucket == null || bucket == undefined) continue;
+          for (const tuple of bucket) {
+            this.put(tuple[0], tuple[1]);
+          }
+        }
       };
     }
 
