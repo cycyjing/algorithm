@@ -44,7 +44,8 @@
         this.count += 1;
         // 6.扩容
         if (this.count > this.limit * 0.75) {
-          this.resize(this.limit * 2);
+          let newLimit = this.limit * 2;
+          this.resize(this.getPrime(newLimit));
         }
       };
       /* delete */
@@ -62,7 +63,8 @@
             return tuple[1];
           }
           if (this.count < this.limit * 0.25 && this.limit > 7) {
-            this.resize(Math.floor(this.limit / 2));
+            const newLimit = Math.floor(this.limit / 2);
+            this.resize(this.getPrime(newLimit));
           }
         }
 
@@ -102,6 +104,19 @@
           }
         }
       };
+      HashTable.prototype.isPrime = function (num) {
+        if (num <= 0) return false;
+        for (let i = 2; i <= parseInt(Math.sqrt(num)); i++) {
+          if (num % i == 0) return false;
+        }
+        return true;
+      };
+      HashTable.prototype.getPrime = function (num) {
+        while (!this.isPrime(num)) {
+          num += 1;
+        }
+        return num;
+      };
     }
 
     const hash = new HashTable();
@@ -115,5 +130,8 @@
     console.log(hash.remove('aaaa'));
     console.log(hash.remove('dob'));
     console.log(hash);
+    console.log(hash.getPrime(10));
+    console.log(hash.getPrime(123));
+    console.log(hash.isPrime(127));
   </script>
 </html>
