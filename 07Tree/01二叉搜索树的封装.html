@@ -14,6 +14,33 @@
         this.left = null;
         this.right = null;
       }
+      /* add */
+      BinarySearchTree.prototype.insert = function (key) {
+        const node = new Node(key);
+        if (this.root == null) {
+          this.root = node;
+        } else {
+          this.insertNode(this.root, node);
+        }
+      };
+      BinarySearchTree.prototype.insertNode = function (current, node) {
+        if (node.key < current.key) {
+          if (current.left == null) {
+            current.left = node;
+          } else {
+            this.insertNode(current.left, node);
+          }
+        } else {
+          if (current.right == null) {
+            current.right = node;
+          } else {
+            this.insertNode(current.right, node);
+          }
+        }
+      };
+      /* delete */
+      /* update */
+      /* search */
     }
   </script>
 </html>
