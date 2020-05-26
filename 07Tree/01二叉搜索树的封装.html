@@ -67,7 +67,19 @@
           this.inorderTraversalNode(node.right, handler);
         }
       };
-      
+      BinarySearchTree.prototype.postorderTraversal = function (handler) {
+        this.postorderTraversalNode(this.root, handler);
+      };
+      BinarySearchTree.prototype.postorderTraversalNode = function (
+        node,
+        handler
+      ) {
+        if (node != null) {
+          this.postorderTraversalNode(node.left, handler);
+          this.postorderTraversalNode(node.right, handler);
+          handler(node.key);
+        }
+      };
     }
 
     const bst = new BinarySearchTree();
@@ -116,6 +128,11 @@
       strs += key + ' ';
     });
     console.log(strs);
-    
+    // post
+    strs = '';
+    bst.postorderTraversal(function (key) {
+      strs += key + ' ';
+    });
+    console.log(strs);
   </script>
 </html>
