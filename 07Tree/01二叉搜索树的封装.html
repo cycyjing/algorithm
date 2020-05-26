@@ -41,19 +41,33 @@
       /* delete */
       /* update */
       /* search */
-      BinarySearchTree.prototype.preOrderTraversal = function (handler) {
-        this.preOrderTraversalNode(this.root, handler);
+      BinarySearchTree.prototype.preorderTraversal = function (handler) {
+        this.preorderTraversalNode(this.root, handler);
       };
-      BinarySearchTree.prototype.preOrderTraversalNode = function (
+      BinarySearchTree.prototype.preorderTraversalNode = function (
         node,
         handler
       ) {
         if (node != null) {
           handler(node.key);
-          this.preOrderTraversalNode(node.left, handler);
-          this.preOrderTraversalNode(node.right, handler);
+          this.preorderTraversalNode(node.left, handler);
+          this.preorderTraversalNode(node.right, handler);
         }
       };
+      BinarySearchTree.prototype.inorderTraversal = function (handler) {
+        this.inorderTraversalNode(this.root, handler);
+      };
+      BinarySearchTree.prototype.inorderTraversalNode = function (
+        node,
+        handler
+      ) {
+        if (node != null) {
+          this.inorderTraversalNode(node.left, handler);
+          handler(node.key);
+          this.inorderTraversalNode(node.right, handler);
+        }
+      };
+      
     }
 
     const bst = new BinarySearchTree();
@@ -90,10 +104,18 @@
     bst.insert(18);
     bst.insert(25);
     bst.insert(6);
+    // pre
     let strs = '';
-    bst.preOrderTraversal(function (key) {
+    bst.preorderTraversal(function (key) {
       strs += key + ' ';
     });
     console.log(strs);
+    // in
+    strs = '';
+    bst.inorderTraversal(function (key) {
+      strs += key + ' ';
+    });
+    console.log(strs);
+    
   </script>
 </html>
