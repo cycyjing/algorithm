@@ -80,6 +80,20 @@
           handler(node.key);
         }
       };
+      BinarySearchTree.prototype.min = function () {
+        let node = this.root;
+        while (current.left !== null) {
+          node = current.left;
+        }
+        return node.key;
+      };
+      BinarySearchTree.prototype.max = function () {
+        let node = this.root;
+        while (node.right !== null) {
+          node = node.right;
+        }
+        return node.key;
+      };
     }
 
     const bst = new BinarySearchTree();
