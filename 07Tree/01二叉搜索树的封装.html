@@ -39,7 +39,7 @@
         }
       };
       /* delete */
-      /* update */
+      BinarySearchTree.prototype.remove = function (key) {};
       /* search */
       BinarySearchTree.prototype.preorderTraversal = function (handler) {
         this.preorderTraversalNode(this.root, handler);
@@ -82,17 +82,30 @@
       };
       BinarySearchTree.prototype.min = function () {
         let node = this.root;
-        while (current.left !== null) {
-          node = current.left;
+        while (node.left != null) {
+          node = node.left;
         }
         return node.key;
       };
       BinarySearchTree.prototype.max = function () {
         let node = this.root;
-        while (node.right !== null) {
+        while (node.right != null) {
           node = node.right;
         }
         return node.key;
+      };
+      BinarySearchTree.prototype.search = function (key) {
+        let node = this.root;
+        while (node != null) {
+          if (key < node.key) {
+            node = node.left;
+          } else if (key > node.key) {
+            node = node.right;
+          } else {
+            return true;
+          }
+        }
+        return false;
       };
     }
 
@@ -148,5 +161,10 @@
       strs += key + ' ';
     });
     console.log(strs);
+
+    console.log(bst.min());
+    console.log(bst.max());
+    console.log(bst.search(2))
+    console.log(bst.search(5))
   </script>
 </html>
